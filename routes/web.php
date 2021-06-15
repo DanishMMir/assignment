@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class, 'indexAction'])->name('home');
 Route::get('/get-properties', [HomeController::class, 'getPropertiesAction'])->name('get-properties');
+Route::get('/admin', [DashboardController::class, 'indexAction'])->name('dashboard');
+Route::get('/admin/property/list', [DashboardController::class, 'propertyListAction'])->name('property.list');
+Route::post('/admin/property/save', [DashboardController::class, 'updateProperty'])->name('property.save');
+Route::get('/admin/property/show/{id}', [DashboardController::class, 'editAction'])->name('property.edit');
+

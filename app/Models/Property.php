@@ -29,7 +29,8 @@ class Property extends Model
         'num_bathrooms',
         'price',
         'type',
-        'property_type'
+        'property_type',
+        'post_code'
     ];
 
     public function property_type(){

@@ -11,7 +11,7 @@ trait GetProperties
 {
     public function handleProperties(){
         $propertiesData = $this->getPropertiesData();
-        return $this->persistProperties($propertiesData);
+        return $propertiesData ? $this->persistProperties($propertiesData):false;
     }
 
     public function getPropertiesData(){
@@ -33,13 +33,14 @@ trait GetProperties
     }
 
     private function persistProperties($propertiesData){
+        $success = false;
         foreach ($propertiesData->data as $property){
-            $propertyType = PropertyType::firstOrCreate(
+            $propertyType = PropertyType::updateOrCreate(
                 ['title' => $property->property_type->title],
                 ['description' => $property->property_type->description]
             );
 //            TODO: Use bulk insert/ update
-            $property = Property::firstOrNew(
+            $success = Property::updateOrCreate(
                 ['uuid'  =>  $property->uuid],
                 [
                     'county'  =>  $property->county,
@@ -60,7 +61,7 @@ trait GetProperties
 
                 ]
             );
-            return $property->save();
         }
+        return $success;
     }
 }

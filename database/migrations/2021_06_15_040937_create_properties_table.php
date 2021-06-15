@@ -31,6 +31,7 @@ class CreatePropertiesTable extends Migration
             $table->string('price')->nullable()->nullable();
             $table->string('type')->nullable();
             $table->integer('property_type')->nullable();
+            $table->string('post_code')->nullable();
             $table->timestamps();
         });
     }
