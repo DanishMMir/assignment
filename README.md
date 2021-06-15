@@ -22,9 +22,13 @@ The assignment was pretty straight forward. Was easy to implement and work on. F
 
 ## How to use
 - pull main branch from github
-- install dependencies
-- check example env and set DB parameters in env
-- run migrations
+- install dependencies by running `composer install`
+- copy example env to env `cp .env.example .env`
+- generate app key `php artisan key:generate`
+- create a database named `assignment` or something else
+- Add your DB creds to .env
+- run migrations `php artisan migrate`
+- start the inbuilt dev server `php artisan serve`
 - That is all
 
 ## What has been done
@@ -32,7 +36,7 @@ The assignment was pretty straight forward. Was easy to implement and work on. F
 - A table view to view all the properties in system.
 - An edit page to edit the properties in system
 
-## How to use
+## Main Functionality
 - start inbuilt dev server `php artisan serve`
 - head over to homepage `127.0.0.1:8000`
 - here you can store / update the properties from API to system by clicking the button.

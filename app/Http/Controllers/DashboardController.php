@@ -53,7 +53,7 @@ class DashboardController extends BaseController
         $propertyType = PropertyType::all()->toArray();
         $property = reset($property);
         $file = '';
-        if ($handle = opendir(storage_path('images'))) {
+        if (is_dir(storage_path('images/thumb')) && $handle = opendir(storage_path('images'))) {
             while (false !== ($entry = readdir($handle))) {
                 if ($entry != "." && $entry != ".." && $id == substr($entry,0,strpos($entry,'_'))) {
                     $file = $entry;
@@ -107,8 +107,8 @@ class DashboardController extends BaseController
 
         //get provided file information
         $fileName    = $image['name'];
-        $fileExtArr  = explode('.',$fileName);//make array of file.name.ext as    array(file,name,ext)
-        $fileExt     = strtolower(end($fileExtArr));//get last item of array of user file input
+        $fileExtArr  = explode('.',$fileName);
+        $fileExt     = strtolower(end($fileExtArr));
         $fileSize    = $image['size'];
         $fileTmp     = $image['tmp_name'];
 
@@ -125,15 +125,20 @@ class DashboardController extends BaseController
             $errors[] = 'only ('.implode(', ',$allowed_files).') files are allowed.';
         }
 
-        //do other validations here if you need more
 
         //before uploading we will look at errors array if empty
         if(empty($errors)){
+            if(!is_dir(storage_path('images'))){
+                if (!mkdir($concurrentDirectory = storage_path('images')) && !is_dir($concurrentDirectory)) {
+                    throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+                }
+                if (!mkdir($concurrentDirectory = storage_path('images/thumb')) && !is_dir($concurrentDirectory)) {
+                    throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+                }
+            }
+
             move_uploaded_file($fileTmp, storage_path('images/'.$id.'_'.$fileName));
 
-            //here we can create thumbnails by create_thumb() function
-            //it takes 5 parametes
-            //1- original image, 2- file extension, 3-thumb full path, 4- max width of thumb, 5-max height of thumb
             $this->createThumb(storage_path('images/'.$id.'_'.$fileName),$fileExt,storage_path('images/thumb/'.$id.'_thumb_'.$fileName),200,200);
         }else{
             return back()->with('error','Error uploading file.');
