@@ -52,7 +52,16 @@ class DashboardController extends BaseController
         $property =  Property::where('id',$id)->get()->toArray();
         $propertyType = PropertyType::all()->toArray();
         $property = reset($property);
-        return view('edit', compact('property', 'propertyType'));
+        $file = '';
+        if ($handle = opendir(storage_path('images'))) {
+            while (false !== ($entry = readdir($handle))) {
+                if ($entry != "." && $entry != ".." && $id == substr($entry,0,strpos($entry,'_'))) {
+                    $file = $entry;
+                }
+            }
+            closedir($handle);
+        }
+        return view('edit', compact('property', 'propertyType', 'file'));
     }
 
     public function deleteAction(Request $request, $id)
@@ -67,7 +76,7 @@ class DashboardController extends BaseController
 
     public function updateProperty(Request $request){
 
-        if (isset($_FILES["image"])){
+        if (!empty($_FILES["image"]['name'])){
             $this->saveImage($_FILES["image"], $request->get('id'));
         }
         $property = Property::updateOrCreate(

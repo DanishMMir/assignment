@@ -38,7 +38,7 @@
             </div>
             <div class="custom-file form-group col-md-6" style="margin-top:30px;">
                 <input type="file" class="custom-file-input" name="image" id="image">
-                <label class="custom-file-label">Image</label>
+                <label class="custom-file-label">{{ !empty($file) ? $file : 'Image' }}</label>
             </div>
         </div>
         <div class="form-row">
