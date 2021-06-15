@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
 @endpush
 @section('content')
+    @include('flash-message')
     <div class="table-responsive">
         <table class="table" id="properties" width="100%" cellspacing="0">
             <thead>
@@ -60,14 +61,14 @@
                     { data: 'num_bedrooms' },
                     { data: 'num_bathrooms' },
                     { data: 'price' },
-                    { data: 'type' },
                     { data: 'property_type' },
+                    { data: 'type' },
                     { data: "id", render : function(data, type, row) {
-                            return '<button class="btn btn-primary btn-xs center-block" onclick="window.open(\'/admin/property/show/'+data+'\')" title="Edit the record" type="button"><i class="fa fa-pencil"></i></button>';
+                            return '<button class="btn btn-primary btn-xs center-block" onclick="location.href=\'/admin/property/show/'+data+'\';" title="Edit the record" type="button"><i class="fa fa-pencil"></i></button>';
                         }
                     },
-                    {data: "order_id", render : function(data, type, row) {
-                            return '<button class="btn btn-danger btn-xs center-block" onclick="window.open(\'/admin/property/show/'+data+'\')" title="Delete the record" type="button"><i class="fa fa-trash"></i></button>';
+                    {data: "id", render : function(data, type, row) {
+                            return '<button class="btn btn-danger btn-xs center-block" onclick="location.href=\'/admin/property/delete/'+data+'\';" title="Delete the record" type="button"><i class="fa fa-trash"></i></button>';
                         }
                     },
                 ],

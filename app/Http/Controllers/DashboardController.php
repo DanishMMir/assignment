@@ -30,7 +30,17 @@ class DashboardController extends BaseController
             'price',
             'type',
             'property_type')->get()->toArray();
+        $propertyType =  PropertyType::select(
+            'id',
+            'title')->get()->toArray();
 
+        foreach ($properties as &$property){
+            foreach ($propertyType as $type){
+                if($property['property_type'] == $type['id']){
+                    $property['property_type']   = $type['title'];
+                }
+            }
+        }
         $properties = [
             "data" => $properties
         ];
@@ -43,6 +53,16 @@ class DashboardController extends BaseController
         $propertyType = PropertyType::all()->toArray();
         $property = reset($property);
         return view('edit', compact('property', 'propertyType'));
+    }
+
+    public function deleteAction(Request $request, $id)
+    {
+        $property = Property::find($id);
+        if ($property->delete()){
+            return back()->with('success','Properties successfully deleted.');
+        }
+
+        return back()->with('error','Error deleting properties.');
     }
 
     public function updateProperty(Request $request){

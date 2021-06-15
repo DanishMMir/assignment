@@ -21,4 +21,5 @@ Route::get('/admin', [DashboardController::class, 'indexAction'])->name('dashboa
 Route::get('/admin/property/list', [DashboardController::class, 'propertyListAction'])->name('property.list');
 Route::post('/admin/property/save', [DashboardController::class, 'updateProperty'])->name('property.save');
 Route::get('/admin/property/show/{id}', [DashboardController::class, 'editAction'])->name('property.edit');
+Route::get('/admin/property/delete/{id}', [DashboardController::class, 'deleteAction'])->name('property.delete');
 
